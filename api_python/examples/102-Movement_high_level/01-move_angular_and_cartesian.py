@@ -121,10 +121,13 @@ def example_cartesian_action_movement(base, base_cyclic):
 
     feedback = base_cyclic.RefreshFeedback()
 
+    print("start z:", feedback.base.tool_pose_z)
+
     cartesian_pose = action.reach_pose.target_pose
     cartesian_pose.x = feedback.base.tool_pose_x          # (meters)
-    cartesian_pose.y = feedback.base.tool_pose_y - 0.1    # (meters)
-    cartesian_pose.z = feedback.base.tool_pose_z - 0.2    # (meters)
+    cartesian_pose.y = feedback.base.tool_pose_y          # (meters)
+    cartesian_pose.z = feedback.base.tool_pose_z+0.1      # (meters)
+    print("target z:", cartesian_pose.z)
     cartesian_pose.theta_x = feedback.base.tool_pose_theta_x # (degrees)
     cartesian_pose.theta_y = feedback.base.tool_pose_theta_y # (degrees)
     cartesian_pose.theta_z = feedback.base.tool_pose_theta_z # (degrees)
@@ -146,6 +149,10 @@ def example_cartesian_action_movement(base, base_cyclic):
         print("Cartesian movement completed")
     else:
         print("Timeout on action notification wait")
+
+    feedback = base_cyclic.RefreshFeedback()
+    print("end z:", feedback.base.tool_pose_z)
+
     return finished
 
 def main():
@@ -167,9 +174,9 @@ def main():
         # Example core
         success = True
 
-        success &= example_move_to_home_position(base)
+        # success &= example_move_to_home_position(base)
         success &= example_cartesian_action_movement(base, base_cyclic)
-        success &= example_angular_action_movement(base)
+        # success &= example_angular_action_movement(base)
 
         # You can also refer to the 110-Waypoints examples if you want to execute
         # a trajectory defined by a series of waypoints in joint space or in Cartesian space
