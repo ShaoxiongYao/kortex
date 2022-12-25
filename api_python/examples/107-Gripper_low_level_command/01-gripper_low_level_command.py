@@ -146,7 +146,7 @@ class GripperLowLevelExample:
         base_feedback = self.base_cyclic.RefreshFeedback()
         self.motorcmd.position = base_feedback.interconnect.gripper_feedback.motor[0].position
         self.motorcmd.velocity = 0
-        self.motorcmd.force = 100
+        self.motorcmd.force = 0.1
 
         for actuator in base_feedback.actuators:
             self.actuator_command = self.base_command.actuators.add()
@@ -202,6 +202,8 @@ class GripperLowLevelExample:
         if target_position < 0.0:
             target_position = 0.0
         while True:
+            motor_cmd = self.base_command.interconnect.gripper_command.motor_cmd
+            print("motor command:", motor_cmd[0].force)
             try:
                 base_feedback = self.base_cyclic.Refresh(self.base_command)
 

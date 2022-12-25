@@ -111,13 +111,16 @@ def example_trajectory(base, base_cyclic):
             kTheta_x = 90.0
             kTheta_y = 0.0
             kTheta_z = 90.0
-            waypointsDefinition = ( (0.7,   0.0,  0.5,  0.0, kTheta_x, kTheta_y, kTheta_z),
-                                    (0.7,   0.0,  0.33, 0.1, kTheta_x, kTheta_y, kTheta_z),
-                                    (0.7,   0.48, 0.33, 0.1, kTheta_x, kTheta_y, kTheta_z),
-                                    (0.61,  0.22, 0.4,  0.1, kTheta_x, kTheta_y, kTheta_z),
-                                    (0.7,   0.48, 0.33, 0.1, kTheta_x, kTheta_y, kTheta_z),
-                                    (0.63, -0.22, 0.45, 0.1, kTheta_x, kTheta_y, kTheta_z),
-                                    (0.65,  0.05, 0.33, 0.0, kTheta_x, kTheta_y, kTheta_z))
+            waypointsDefinition = ( (0.7,   0.0,  0.5,  0.0, kTheta_x, kTheta_y, kTheta_z), )
+
+            input("INFO: about to set cartesian pose")
+            # waypointsDefinition = ( (0.7,   0.0,  0.5,  0.0, kTheta_x, kTheta_y, kTheta_z),
+            #                         (0.7,   0.0,  0.33, 0.1, kTheta_x, kTheta_y, kTheta_z),
+            #                         (0.7,   0.48, 0.33, 0.1, kTheta_x, kTheta_y, kTheta_z),
+            #                         (0.61,  0.22, 0.4,  0.1, kTheta_x, kTheta_y, kTheta_z),
+            #                         (0.7,   0.48, 0.33, 0.1, kTheta_x, kTheta_y, kTheta_z),
+            #                         (0.63, -0.22, 0.45, 0.1, kTheta_x, kTheta_y, kTheta_z),
+            #                         (0.65,  0.05, 0.33, 0.0, kTheta_x, kTheta_y, kTheta_z))
     else:
         print("Product is not compatible to run this example please contact support with KIN number bellow")
         print("Product KIN is : " + product.kin())
@@ -139,8 +142,8 @@ def example_trajectory(base, base_cyclic):
     result = base.ValidateWaypointList(waypoints);
     if(len(result.trajectory_error_report.trajectory_error_elements) == 0):
         e = threading.Event()
-        notification_handle = base.OnNotificationActionTopic(   check_for_end_or_abort(e),
-                                                                Base_pb2.NotificationOptions())
+        notification_handle = base.OnNotificationActionTopic( check_for_end_or_abort(e),
+                                                              Base_pb2.NotificationOptions() )
 
         print("Moving cartesian trajectory...")
         
@@ -153,8 +156,8 @@ def example_trajectory(base, base_cyclic):
         if finished:
             print("Cartesian trajectory with no optimization completed ")
             e_opt = threading.Event()
-            notification_handle_opt = base.OnNotificationActionTopic(   check_for_end_or_abort(e_opt),
-                                                                Base_pb2.NotificationOptions())
+            notification_handle_opt = base.OnNotificationActionTopic( check_for_end_or_abort(e_opt),
+                                                                      Base_pb2.NotificationOptions() )
 
             waypoints.use_optimal_blending = True
             base.ExecuteWaypointTrajectory(waypoints)

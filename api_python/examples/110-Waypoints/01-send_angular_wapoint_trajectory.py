@@ -97,7 +97,7 @@ def example_trajectory(base, base_cyclic):
     product = base.GetProductConfiguration()
 
     if(   product.model == Base_pb2.ProductConfiguration__pb2.MODEL_ID_L53 
-    or product.model == Base_pb2.ProductConfiguration__pb2.MODEL_ID_L31):
+       or product.model == Base_pb2.ProductConfiguration__pb2.MODEL_ID_L31):
         if(product.model == Base_pb2.ProductConfiguration__pb2.MODEL_ID_L31):
             jointPoses = (  (0.0,  344.0, 75.0,  360.0, 300.0, 0.0),
                             (0.0,  21.0,  145.0, 272.0, 32.0,  273.0),
@@ -115,13 +115,15 @@ def example_trajectory(base, base_cyclic):
                                 ( 28.8,  36.7, 273.2, 40.8,  39.5, 59.8 ),
                                 ( 360.0, 45.6, 251.9, 352.2, 54.3, 101.0 ))
             else:
-                jointPoses = (  ( 360.0, 35.6, 180.7, 281.8, 0.8,   23.8, 88.9  ),
-                                ( 359.6, 49.1, 181.0, 272.1, 0.3,   47.0, 89.1  ),
-                                ( 320.5, 76.5, 166.5, 335.5, 293.4, 46.1, 165.6 ),
-                                ( 335.6, 38.8, 177.0, 266.1, 323.9, 49.7, 117.3 ),
-                                ( 320.4, 76.5, 166.5, 335.5, 293.4, 46.1, 165.6 ),
-                                ( 28.8,  36.7, 174.7, 273.2, 40.8,  39.5, 59.8  ),
-                                ( 360.0, 45.6, 171.0, 251.9, 352.2, 54.3, 101.0 ))
+                input("INFO: about to set joint poses")
+                jointPoses = (( 360.0, 35.6, 180.7, 281.8, 0.8,   23.8, 88.9  ),)
+                # jointPoses = (  ( 360.0, 35.6, 180.7, 281.8, 0.8,   23.8, 88.9  ),
+                #                 ( 359.6, 49.1, 181.0, 272.1, 0.3,   47.0, 89.1  ),
+                #                 ( 320.5, 76.5, 166.5, 335.5, 293.4, 46.1, 165.6 ),
+                #                 ( 335.6, 38.8, 177.0, 266.1, 323.9, 49.7, 117.3 ),
+                #                 ( 320.4, 76.5, 166.5, 335.5, 293.4, 46.1, 165.6 ),
+                #                 ( 28.8,  36.7, 174.7, 273.2, 40.8,  39.5, 59.8  ),
+                #                 ( 360.0, 45.6, 171.0, 251.9, 352.2, 54.3, 101.0 ))
             
     else:
         print("Product is not compatible to run this example please contact support with KIN number bellow")
@@ -136,14 +138,14 @@ def example_trajectory(base, base_cyclic):
     for jointPose in jointPoses:
         waypoint = waypoints.waypoints.add()
         waypoint.name = "waypoint_" + str(index)
-        durationFactor = 1
+        durationFactor = 5
         # Joints/motors 5 and 7 are slower and need more time
         if(index == 4 or index == 6):
             durationFactor = 6 # Min 30 seconds
         
         waypoint.angular_waypoint.CopyFrom(populateAngularPose(jointPose, durationFactor))
         index = index + 1 
-    
+        
     
    # Verify validity of waypoints
     result = base.ValidateWaypointList(waypoints);
